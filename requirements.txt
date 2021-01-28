@@ -1,5 +1,4 @@
 Flask
-numpy
 requests
 tensorflow
 keras
