@@ -62,9 +62,9 @@ def webhook():
 
 
                     # Defining lines as a list of each line
-                    with open(data_path, 'r') as f:
+                    with open(data_path, 'r',encoding='latin-1') as f:
                         lines = f.read().split('\n')
-                    with open(data_path2, 'r') as f:
+                    with open(data_path2, 'r',encoding='latin-1') as f:
                         lines2 = f.read().split('\n')
                     lines = [re.sub(r"\[\w+\]",'hi',line) for line in lines]
                     lines = [" ".join(re.findall(r"\w+",line)) for line in lines]
