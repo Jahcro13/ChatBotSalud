@@ -6,9 +6,9 @@ import sys
 import json
 import requests
 from flask import Flask, request
-import keras
-import numpy as np
-import re
+#import keras
+#import numpy as np
+#import re
 
 data_path = "PreguntasFinal.csv"
 data_path2 = "RespuestasFinal.csv"
