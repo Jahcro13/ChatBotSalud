@@ -7,11 +7,11 @@ import json
 import requests
 from flask import Flask, request
 import tensorflow as tf
-from tensorflow import keras
-from keras.layers import Input, LSTM, Dense
-from keras.models import Model
-from keras.models import load_model
-import numpy as np
+#from tensorflow import keras
+#from keras.layers import Input, LSTM, Dense
+#from keras.models import Model
+#from keras.models import load_model
+#import numpy as np
 #import re
 #import random
 data_path = "PreguntasFinal.csv"
