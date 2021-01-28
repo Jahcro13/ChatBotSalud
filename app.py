@@ -6,9 +6,9 @@ import sys
 import json
 import requests
 from flask import Flask, request
-import tensorflow #as tf
-#import numpy as np
-#import re
+import tensorflow
+import numpy
+import re
 
 data_path = "PreguntasFinal.csv"
 data_path2 = "RespuestasFinal.csv"
