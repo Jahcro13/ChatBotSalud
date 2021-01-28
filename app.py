@@ -1,3 +1,7 @@
+import os
+import sys
+import json
+
 import requests
 from flask import Flask, request
 
@@ -15,7 +19,7 @@ def verify():
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
 
-    return "Hello world sapoperro", 200
+    return "Hello world", 200
 
 
 @app.route('/', methods=['POST'])
@@ -83,7 +87,7 @@ def build_message(response):
         return dict(text=response["text"], quick_replies=[dict(content_type="location")])
 
     else:
-        print(response)
+        print response
         raise Exception("Don't know how to send a message like that")
 
 
@@ -110,7 +114,7 @@ def send_message(recipient_id, message_data):
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
-    print(str(message))
+    print str(message)
     sys.stdout.flush()
 
 
