@@ -87,7 +87,7 @@ def build_message(response):
         return dict(text=response["text"], quick_replies=[dict(content_type="location")])
 
     else:
-        print response
+        print(response)
         raise Exception("Don't know how to send a message like that")
 
 
@@ -114,7 +114,7 @@ def send_message(recipient_id, message_data):
 
 
 def log(message):  # simple wrapper for logging to stdout on heroku
-    print str(message)
+    print(str(message))
     sys.stdout.flush()
 
 
