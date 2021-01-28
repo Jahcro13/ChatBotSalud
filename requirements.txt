@@ -8,4 +8,3 @@ gunicorn
 itsdangerous
 requests
 keras
-Numpy
