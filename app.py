@@ -77,18 +77,18 @@ def webhook():
 
 def build_message(response):
     if type(response) is str or type(response) is unicode:
-        return dict(text=response)
+        return str("Hola Bobo") #dict(text=response)
 
     if type(response) == dict and "quick_replies" in response.keys():
         buttons = [dict(content_type="text", title=b["label"], payload=b["value"]) for b in response["quick_replies"]]
         return dict(text=response["text"], quick_replies=buttons)
 
     if type(response) == dict and "get_location" in response.keys():
-        return dict(text=response["text"], quick_replies=[dict(content_type="location")])
+        return str("Hola Bobo") #dict(text=response["text"], quick_replies=[dict(content_type="location")])
 
     else:
         print(response)
-        raise Exception("Don't know how to send a message like that")
+        print(str("Hola Bobo")) #raise Exception("Don't know how to send a message like that")
 
 
 def send_message(recipient_id, message_data):
