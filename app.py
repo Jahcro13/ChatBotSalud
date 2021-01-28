@@ -63,9 +63,9 @@ def webhook():
 
                     # Defining lines as a list of each line
                     with open(data_path, 'r') as f:
-                    lines = f.read().split('\n')
+                        lines = f.read().split('\n')
                     with open(data_path2, 'r') as f:
-                    lines2 = f.read().split('\n')
+                        lines2 = f.read().split('\n')
                     lines = [re.sub(r"\[\w+\]",'hi',line) for line in lines]
                     lines = [" ".join(re.findall(r"\w+",line)) for line in lines]
                     lines2 = [re.sub(r"\[\w+\]",'',line) for line in lines2]
@@ -80,50 +80,39 @@ def webhook():
                     input_tokens = set()
                     target_tokens = set()
                     for line in pairs[:400]:
-                    input_doc, target_doc = line[0], line[1]
+                        input_doc, target_doc = line[0], line[1]
                     # Appending each input sentence to input_docs
-                    input_docs.append(input_doc)
+                        input_docs.append(input_doc)
                     # Splitting words from punctuation  
-                    target_doc = " ".join(re.findall(r"[\w']+|[^\s\w]", target_doc))
+                        target_doc = " ".join(re.findall(r"[\w']+|[^\s\w]", target_doc))
                     # Redefine target_doc below and append it to target_docs
-                    target_doc = '<START> ' + target_doc + ' <END>'
-                    target_docs.append(target_doc)
+                        target_doc = '<START> ' + target_doc + ' <END>'
+                        target_docs.append(target_doc)
                         
                     # Now we split up each sentence into words and add each unique word to our vocabulary set
-                    for token in re.findall(r"[\w']+|[^\s\w]", input_doc):
-                        if token not in input_tokens:
-                        input_tokens.add(token)
-                    for token in target_doc.split():
-                        if token not in target_tokens:
-                        target_tokens.add(token)
+                        for token in re.findall(r"[\w']+|[^\s\w]", input_doc):
+                            if token not in input_tokens:
+                                input_tokens.add(token)
+                        for token in target_doc.split():
+                            if token not in target_tokens:
+                                target_tokens.add(token)
                     input_tokens = sorted(list(input_tokens))
                     target_tokens = sorted(list(target_tokens))
                     num_encoder_tokens = len(input_tokens)
                     num_decoder_tokens = len(target_tokens)
 
-                    input_features_dict = dict(
-                        [(token, i) for i, token in enumerate(input_tokens)])
-                    target_features_dict = dict(
-                        [(token, i) for i, token in enumerate(target_tokens)])
-
-                    reverse_input_features_dict = dict(
-                        (i, token) for token, i in input_features_dict.items())
-                    reverse_target_features_dict = dict(
-                        (i, token) for token, i in target_features_dict.items())
+                    input_features_dict = dict([(token, i) for i, token in enumerate(input_tokens)])
+                    target_features_dict = dict([(token, i) for i, token in enumerate(target_tokens)])
+                    reverse_input_features_dict = dict((i, token) for token, i in input_features_dict.items())
+                    reverse_target_features_dict = dict((i, token) for token, i in target_features_dict.items())
 
 
                     max_encoder_seq_length = max([len(re.findall(r"[\w']+|[^\s\w]", input_doc)) for input_doc in input_docs])
                     max_decoder_seq_length = max([len(re.findall(r"[\w']+|[^\s\w]", target_doc)) for target_doc in target_docs])
 
-                    encoder_input_data = np.zeros(
-                        (len(input_docs), max_encoder_seq_length, num_encoder_tokens),
-                        dtype='float32')
-                    decoder_input_data = np.zeros(
-                        (len(input_docs), max_decoder_seq_length, num_decoder_tokens),
-                        dtype='float32')
-                    decoder_target_data = np.zeros(
-                        (len(input_docs), max_decoder_seq_length, num_decoder_tokens),
-                        dtype='float32')
+                    encoder_input_data = np.zeros((len(input_docs), max_encoder_seq_length, num_encoder_tokens), dtype='float32')
+                    decoder_input_data = np.zeros((len(input_docs), max_decoder_seq_length, num_decoder_tokens), dtype='float32')
+                    decoder_target_data = np.zeros((len(input_docs), max_decoder_seq_length, num_decoder_tokens), dtype='float32')
 
                     for line, (input_doc, target_doc) in enumerate(zip(input_docs, target_docs)):
                         for timestep, token in enumerate(re.findall(r"[\w']+|[^\s\w]", input_doc)):
@@ -205,48 +194,46 @@ def webhook():
 
                     # %%
                     class ChatBot():
-                    negative_responses = ("no", "nope", "nah", "naw", "not a chance", "sorry")
-                    exit_commands = ("quit", "pause", "exit", "goodbye", "bye", "later", "stop")
+                        negative_responses = ("no", "nope", "nah", "naw", "not a chance", "sorry")
+                        exit_commands = ("quit", "pause", "exit", "goodbye", "bye", "later", "stop")
                     #Method to start the conversation
-                    def start_chat(self):
-                        user_response = message_text #input("Hi, I'm a chatbot trained on random dialogs. Would you like to chat with me?\n")
+                        def start_chat(self):
+                            user_response = message_text #input("Hi, I'm a chatbot trained on random dialogs. Would you like to chat with me?\n")
                         
-                        if user_response in self.negative_responses:
-                        print("Ok, have a great day!")
-                        return
+                            if user_response in self.negative_responses:
+                                print("Ok, have a great day!")
+                            return
                         self.chat(user_response)
                     #Method to handle the conversation
-                    def chat(self, reply):
-                        while not self.make_exit(reply):
-                        reply = input(self.generate_response(reply)+"\n")
+                        def chat(self, reply):
+                            while not self.make_exit(reply):
+                            reply = input(self.generate_response(reply)+"\n")
                         
                     #Method to convert user input into a matrix
-                    def string_to_matrix(self, user_input):
-                        tokens = re.findall(r"[\w']+|[^\s\w]", user_input)
-                        user_input_matrix = np.zeros(
-                        (1, max_encoder_seq_length, num_encoder_tokens),
-                        dtype='float32')
-                        for timestep, token in enumerate(tokens):
-                        if token in input_features_dict:
-                            user_input_matrix[0, timestep, input_features_dict[token]] = 1.
-                        return user_input_matrix
+                        def string_to_matrix(self, user_input):
+                            tokens = re.findall(r"[\w']+|[^\s\w]", user_input)
+                            user_input_matrix = np.zeros((1, max_encoder_seq_length, num_encoder_tokens),dtype='float32')
+                            for timestep, token in enumerate(tokens):
+                                if token in input_features_dict:
+                                user_input_matrix[0, timestep, input_features_dict[token]] = 1.
+                            return user_input_matrix
                     
                     #Method that will create a response using seq2seq model we built
-                    def generate_response(self, user_input):
-                        global chatbot_response
-                        input_matrix = self.string_to_matrix(user_input)
-                        chatbot_response = decode_response(input_matrix)
-                        #Remove <START> and <END> tokens from chatbot_response
-                        chatbot_response = chatbot_response.replace("<START>",'')
-                        chatbot_response = chatbot_response.replace("<END>",'')
-                        return chatbot_response
+                        def generate_response(self, user_input):
+                            global chatbot_response
+                            input_matrix = self.string_to_matrix(user_input)
+                            chatbot_response = decode_response(input_matrix)
+                            #Remove <START> and <END> tokens from chatbot_response
+                            chatbot_response = chatbot_response.replace("<START>",'')
+                            chatbot_response = chatbot_response.replace("<END>",'')
+                            return chatbot_response
                     #Method to check for exit commands
-                    def make_exit(self, reply):
-                        for exit_command in self.exit_commands:
-                        if exit_command in reply:
-                            print("Ok, have a great day!")
+                        def make_exit(self, reply):
+                            for exit_command in self.exit_commands:
+                                if exit_command in reply:
+                                    print("Ok, have a great day!")
+                                    return True
                             return True
-                        return True
                     
                     chatbot = ChatBot()
                     chatbot.start_chat()
