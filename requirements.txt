@@ -4,6 +4,8 @@ MarkupSafe
 Werkzeug
 click
 tensorflow
+numpy
+random
 gunicorn
 itsdangerous
 requests
