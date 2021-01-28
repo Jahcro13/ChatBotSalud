@@ -9,3 +9,8 @@ itsdangerous
 requests
 keras
 Numpy
+Input
+LSTM
+Dense
+Model
+load_model
