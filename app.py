@@ -81,7 +81,7 @@ def build_message(response):
 
     if type(response) == dict and "quick_replies" in response.keys():
         buttons = [dict(content_type="text", title=b["label"], payload=b["value"]) for b in response["quick_replies"]]
-        return dict(text=response["text"], quick_replies=buttons)
+        return str("Hola Bobo") #dict(text=response["text"], quick_replies=buttons)
 
     if type(response) == dict and "get_location" in response.keys():
         return str("Hola Bobo") #dict(text=response["text"], quick_replies=[dict(content_type="location")])
