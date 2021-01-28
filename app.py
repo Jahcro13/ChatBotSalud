@@ -16,7 +16,7 @@ from keras.models import Model
 from keras.models import load_model
 import numpy as np
 import re
-import random
+#import random
 data_path = "PreguntasFinal.csv"
 data_path2 = "RespuestasFinal.csv"
 app = Flask(__name__)
