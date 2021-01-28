@@ -6,7 +6,7 @@ import sys
 import json
 import requests
 from flask import Flask, request
-import tensorflow as tf
+import tensorflow #as tf
 #import numpy as np
 #import re
 
