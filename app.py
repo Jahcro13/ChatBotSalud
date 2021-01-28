@@ -1,7 +1,3 @@
-import os
-import sys
-import json
-
 import requests
 from flask import Flask, request
 
@@ -19,7 +15,7 @@ def verify():
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
 
-    return "Hola Mundo", 200
+    return "Hello world sapoperro", 200
 
 
 @app.route('/', methods=['POST'])
@@ -38,34 +34,30 @@ def webhook():
                 if messaging_event.get("message"):  # someone sent us a message
 
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
-                    recipient_id = messaging_event["recipient"]["id"]
-                    message_text = messaging_event["message"]["text"]
-                    
-                    send_message(sender_id,'Carolina')
 
-                    #if messaging_event["message"].get("text"):  # they sent a text message
-                    #    message_body = messaging_event["message"].get("text")
-                    #    message_type = "text"
+                    if messaging_event["message"].get("text"):  # they sent a text message
+                        message_body = messaging_event["message"].get("text")
+                        message_type = "text"
 
-                    #if messaging_event["message"].get("quick_reply"):  # they sent a quick reply
-                     #   message_body = messaging_event["message"]["quick_reply"]["payload"]
-                      #  message_type = "quick_reply"
+                    if messaging_event["message"].get("quick_reply"):  # they sent a quick reply
+                        message_body = messaging_event["message"]["quick_reply"]["payload"]
+                        message_type = "quick_reply"
 
-                    #if messaging_event["message"].get("attachments"):  # they sent an attachment
-                     #   if messaging_event["message"]["attachments"][0]["type"] == "location":  # they sent a location
-                      #      message_body = json.dumps(messaging_event["message"]["attachments"][0]["payload"])
-                       #     message_type = "location"
+                    if messaging_event["message"].get("attachments"):  # they sent an attachment
+                        if messaging_event["message"]["attachments"][0]["type"] == "location":  # they sent a location
+                            message_body = json.dumps(messaging_event["message"]["attachments"][0]["payload"])
+                            message_type = "location"
 
-                    #log("Got a {} message from {}: {}".format(message_type, sender_id, message_body))
-                    #responses = process_message(message_body, message_type)
+                    log("Got a {} message from {}: {}".format(message_type, sender_id, message_body))
+                    responses = process_message(message_body, message_type)
 
                     # convert responses to a list, if not already
-                    #if type(responses) is not list:
-                     #   responses = [responses]
+                    if type(responses) is not list:
+                        responses = [responses]
 
-                    #for response in responses:
-                     #   msg = build_message(response)
-                     #   send_message(sender_id, msg)
+                    for response in responses:
+                        msg = build_message(response)
+                        send_message(sender_id, msg)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
