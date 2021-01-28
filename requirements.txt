@@ -3,7 +3,6 @@ Jinja2
 MarkupSafe
 Werkzeug
 click
-tensorflow
 numpy
 gunicorn
 itsdangerous
