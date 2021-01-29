@@ -11,8 +11,8 @@ import numpy
 import re
 
 
-data_path = "https://raw.githubusercontent.com/Jahcro13/ChatBotSalud/master/PreguntasFinal.csv"
-data_path2 = "https://raw.githubusercontent.com/Jahcro13/ChatBotSalud/master/RespuestasFinal.csv"
+data_path = "https://raw.githubusercontent.com/Jahcro13/ChatBotSalud/master/PreguntasFinal900.csv"
+data_path2 = "https://raw.githubusercontent.com/Jahcro13/ChatBotSalud/master/RespuestasFinal900.csv"
 # Defining lines as a list of each line
 download = requests.get(data_path).content
 download2 = requests.get(data_path2).content
