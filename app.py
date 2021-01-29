@@ -104,50 +104,50 @@ decoder_dense = tensorflow.keras.layers.Dense(num_decoder_tokens, activation='so
 decoder_outputs = decoder_dense(decoder_outputs)
 
 
-training_model = tensorflow.keras.models.load_model("training_model.h5")
-encoder_inputs = training_model.input[0]
-encoder_outputs, state_h_enc, state_c_enc = training_model.layers[2].output
-encoder_states = [state_h_enc, state_c_enc]
-encoder_model = tensorflow.keras.models.Model(encoder_inputs, encoder_states)
+# training_model = tensorflow.keras.models.load_model("training_model.h5")
+# encoder_inputs = training_model.input[0]
+# encoder_outputs, state_h_enc, state_c_enc = training_model.layers[2].output
+# encoder_states = [state_h_enc, state_c_enc]
+# encoder_model = tensorflow.keras.models.Model(encoder_inputs, encoder_states)
 
-latent_dim = 256
-decoder_state_input_hidden = tensorflow.keras.layers.Input(shape=(latent_dim,))
-decoder_state_input_cell = tensorflow.keras.layers.Input(shape=(latent_dim,))
-decoder_states_inputs = [decoder_state_input_hidden, decoder_state_input_cell]
-decoder_outputs, state_hidden, state_cell = decoder_lstm(decoder_inputs, initial_state=decoder_states_inputs)
-decoder_states = [state_hidden, state_cell]
-decoder_outputs = decoder_dense(decoder_outputs)
-decoder_model = tensorflow.keras.models.Model([decoder_inputs] + decoder_states_inputs, [decoder_outputs] + decoder_states)
+# latent_dim = 256
+# decoder_state_input_hidden = tensorflow.keras.layers.Input(shape=(latent_dim,))
+# decoder_state_input_cell = tensorflow.keras.layers.Input(shape=(latent_dim,))
+# decoder_states_inputs = [decoder_state_input_hidden, decoder_state_input_cell]
+# decoder_outputs, state_hidden, state_cell = decoder_lstm(decoder_inputs, initial_state=decoder_states_inputs)
+# decoder_states = [state_hidden, state_cell]
+# decoder_outputs = decoder_dense(decoder_outputs)
+# decoder_model = tensorflow.keras.models.Model([decoder_inputs] + decoder_states_inputs, [decoder_outputs] + decoder_states)
 
-def decode_response(test_input):
-    #Getting the output states to pass into the decoder
-    states_value = encoder_model.predict(test_input)
-    #Generating empty target sequence of length 1
-    target_seq = numpy.zeros((1, 1, num_decoder_tokens))
-    #Setting the first token of target sequence with the start token
-    target_seq[0, 0, target_features_dict['<START>']] = 1.
+# def decode_response(test_input):
+#     #Getting the output states to pass into the decoder
+#     states_value = encoder_model.predict(test_input)
+#     #Generating empty target sequence of length 1
+#     target_seq = numpy.zeros((1, 1, num_decoder_tokens))
+#     #Setting the first token of target sequence with the start token
+#     target_seq[0, 0, target_features_dict['<START>']] = 1.
     
-    #A variable to store our response word by word
-    decoded_sentence = ''
+#     #A variable to store our response word by word
+#     decoded_sentence = ''
     
-    stop_condition = False
+#     stop_condition = False
     
-    while not stop_condition:
-          #Predicting output tokens with probabilities and states
-          output_tokens, hidden_state, cell_state = decoder_model.predict([target_seq] + states_value)
-    #Choosing the one with highest probability
-          sampled_token_index = numpy.argmax(output_tokens[0, -1, :])
-          sampled_token = reverse_target_features_dict[sampled_token_index]
-          decoded_sentence += " " + sampled_token
-    #Stop if hit max length or found the stop token
-          if (sampled_token == '<END>' or len(decoded_sentence) > max_decoder_seq_length):
-            stop_condition = True
-    #Update the target sequence
-          target_seq = numpy.zeros((1, 1, num_decoder_tokens))
-          target_seq[0, 0, sampled_token_index] = 1.
-          #Update states
-          states_value = [hidden_state, cell_state]
-    return decoded_sentence
+#     while not stop_condition:
+#           #Predicting output tokens with probabilities and states
+#           output_tokens, hidden_state, cell_state = decoder_model.predict([target_seq] + states_value)
+#     #Choosing the one with highest probability
+#           sampled_token_index = numpy.argmax(output_tokens[0, -1, :])
+#           sampled_token = reverse_target_features_dict[sampled_token_index]
+#           decoded_sentence += " " + sampled_token
+#     #Stop if hit max length or found the stop token
+#           if (sampled_token == '<END>' or len(decoded_sentence) > max_decoder_seq_length):
+#             stop_condition = True
+#     #Update the target sequence
+#           target_seq = numpy.zeros((1, 1, num_decoder_tokens))
+#           target_seq[0, 0, sampled_token_index] = 1.
+#           #Update states
+#           states_value = [hidden_state, cell_state]
+#     return decoded_sentence
 
 app = Flask(__name__)
 
