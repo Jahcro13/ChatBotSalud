@@ -10,8 +10,8 @@ import tensorflow
 import numpy
 import re
 
-data_path = "PreguntasFinal.csv"
-data_path2 = "RespuestasFinal.csv"
+data_path = os.path.join(sys.path[0],"PreguntasFinal.csv")
+data_path2 = os.path.join(sys.path[0],"RespuestasFinal.csv")
 
 # Defining lines as a list of each line
 with open(data_path, 'r') as f:
