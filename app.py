@@ -13,17 +13,17 @@ import re
 data_path = os.path.join(sys.path[0],"PreguntasFinal.csv")
 data_path2 = os.path.join(sys.path[0],"RespuestasFinal.csv")
 
-# # Defining lines as a list of each line
-# with open(data_path, 'r',encoding='latin-1') as f:
-#   lines = f.read().split('\n')
-# with open(data_path2, 'r',encoding='latin-1') as f:
-#   lines2 = f.read().split('\n')
-# lines = [re.sub(r"\[\w+\]",'hi',line) for line in lines]
-# lines = [" ".join(re.findall(r"\w+",line)) for line in lines]
-# lines2 = [re.sub(r"\[\w+\]",'',line) for line in lines2]
-# lines2 = [" ".join(re.findall(r"\w+",line)) for line in lines2]
-# # Grouping lines by response pair
-# pairs = list(zip(lines,lines2))
+# Defining lines as a list of each line
+with open(data_path, 'r',encoding='latin-1') as f:
+  lines = f.read().split('\n')
+with open(data_path2, 'r',encoding='latin-1') as f:
+  lines2 = f.read().split('\n')
+lines = [re.sub(r"\[\w+\]",'hi',line) for line in lines]
+lines = [" ".join(re.findall(r"\w+",line)) for line in lines]
+lines2 = [re.sub(r"\[\w+\]",'',line) for line in lines2]
+lines2 = [" ".join(re.findall(r"\w+",line)) for line in lines2]
+# Grouping lines by response pair
+pairs = list(zip(lines,lines2))
 
 # input_docs = []
 # target_docs = []
