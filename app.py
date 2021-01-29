@@ -12,9 +12,9 @@ import re
 
 
 # Defining lines as a list of each line
-with open(os.path.join(sys.path[0],"PreguntasFinal.csv"), 'r',encoding='latin-1') as f:
+with open("PreguntasFinal.csv", 'r',encoding='latin-1') as f:
   lines = f.read().split('\n')
-with open(os.path.join(sys.path[0],"RespuestasFinal.csv"), 'r',encoding='latin-1') as f:
+with open("RespuestasFinal.csv", 'r',encoding='latin-1') as f:
   lines2 = f.read().split('\n')
 # lines = [re.sub(r"\[\w+\]",'hi',line) for line in lines]
 # lines = [" ".join(re.findall(r"\w+",line)) for line in lines]
