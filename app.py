@@ -11,11 +11,14 @@ import numpy
 import re
 
 
+data_path = "https://raw.githubusercontent.com/Jahcro13/ChatBotSalud/master/PreguntasFinal.csv"
+data_path2 = "https://raw.githubusercontent.com/Jahcro13/ChatBotSalud/master/RespuestasFinal.csv"
 # Defining lines as a list of each line
-with open("PreguntasFinal.csv", 'r',encoding='latin-1') as f:
-  lines = f.read().split('\n')
-with open("RespuestasFinal.csv", 'r',encoding='latin-1') as f:
-  lines2 = f.read().split('\n')
+download = requests.get(data_path).content
+download2 = requests.get(data_path2).content
+lines = download.decode('latin-1').split('\r\n')
+lines2 = download2.decode('latin-1').split('\r\n')
+
 # lines = [re.sub(r"\[\w+\]",'hi',line) for line in lines]
 # lines = [" ".join(re.findall(r"\w+",line)) for line in lines]
 # lines2 = [re.sub(r"\[\w+\]",'',line) for line in lines2]
