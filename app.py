@@ -10,13 +10,11 @@ import tensorflow
 import numpy
 import re
 
-data_path = os.path.join(sys.path[0],"PreguntasFinal.csv")
-data_path2 = os.path.join(sys.path[0],"RespuestasFinal.csv")
 
 # Defining lines as a list of each line
-with open(data_path, 'r',encoding='latin-1') as f:
+with open(os.path.join(sys.path[0],"PreguntasFinal.csv"), 'r',encoding='latin-1') as f:
   lines = f.read().split('\n')
-with open(data_path2, 'r',encoding='latin-1') as f:
+with open(os.path.join(sys.path[0],"RespuestasFinal.csv"), 'r',encoding='latin-1') as f:
   lines2 = f.read().split('\n')
 # lines = [re.sub(r"\[\w+\]",'hi',line) for line in lines]
 # lines = [" ".join(re.findall(r"\w+",line)) for line in lines]
