@@ -105,7 +105,7 @@ decoder_dense = tensorflow.keras.layers.Dense(num_decoder_tokens, activation='so
 decoder_outputs = decoder_dense(decoder_outputs)
 
 
-# training_model = tensorflow.keras.models.load_model("training_model.h5")
+training_model = tensorflow.keras.models.load_model("training_model.h5")
 # encoder_inputs = training_model.input[0]
 # encoder_outputs, state_h_enc, state_c_enc = training_model.layers[2].output
 # encoder_states = [state_h_enc, state_c_enc]
